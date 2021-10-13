@@ -23,13 +23,13 @@ class User(AbstractUser):
 # class Order(AbstractUser):
 #     id=models.AutoField(unique=True,primary_key=True)
 #     # restaurant_id=models.ForeignKey()
-#     status=models.Choices()
-#     user_id=models.ForeignKey()
+#     status=models.IntegerField()
+#     # user_id=models.ForeignKey()
 #     total_price=models.FloatField()
 #     created_at=models.DateTimeField()
 #     updated_at=models.DateTimeField()
-    # USERNAME_FIELD='id'
-    # REQUIRED_FIELDS=[]
+#     USERNAME_FIELD='id'
+#     REQUIRED_FIELDS=[]
 
 # class Food(AbstractUser):
 #     id=models.AutoField(unique=True,primary_key=True)

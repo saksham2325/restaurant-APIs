@@ -9,7 +9,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 # class OrderViewSet(viewsets.ModelViewSet):
-#     queryset=Order.objects.all.order_by('name')
+#     queryset=Order.objects.all()
 #     serializer_class=OrderSerializer
 
 
