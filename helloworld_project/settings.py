@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'userinfo',
-    # 'restaurantinfo',
+    'accounts',
+    'restaurant',
 ]
-AUTH_USER_MODEL='userinfo.User'
+AUTH_USER_MODEL='accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'helloworld_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydb2',
+        'NAME': 'mydb3',
         'USER': 'myuser2',
         'PASSWORD': '1234',
         'HOST': 'localhost',
