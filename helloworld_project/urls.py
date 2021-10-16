@@ -21,6 +21,5 @@ urlpatterns = [
     path('',include('accounts.urls')),
     
     # This has not been tested yet.
-
-    # path('',include('restaurant.urls')),
+    path('',include('restaurant.urls')),
 ]
