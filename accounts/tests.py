@@ -1,35 +1,50 @@
-# from django.http import response
-from django.test import TestCase
-from rest_framework.test import APIClient
-from rest_framework import status
-from accounts.models import User
 from django.urls import reverse
+from rest_framework import response, status
+from rest_framework.test import APIClient, APITestCase
 
-# When I run the command python manage.py test 3 errors are there.
+from accounts.models import User
 
-class UserTest(TestCase):
 
-    def setUp(self):
-        self.client = APIClient()
-        self.user_data = {'name' : 'Go to Ibiza'}
-        self.response = self.client.post(reverse('user-list'), self.user_data, format = "json")
+class UserTest(APITestCase):
 
-    def test_api_can_create_user(self):
-        self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
-    def test_api_can_get_user(self):
-        user=User.objects.get()
-        response=self.client.get(reverse('pk', kwargs = {'user': user.id}), format = "json")
+    def can_create_user(self):
+        url = reverse('users-list')
+        data = {
+            'email': 'Test@gmail.com',
+            'name': 'Test',
+            'city': 'Test',
+            'state': 'Test',
+            'zipcode': 'Test'
+        }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(User.objects.get().name, 'Test')
+
+
+    def can_get_user(self):
+        user = User.objects.get()
+        url = reverse('users-list',kwargs={'User':user.email})
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertContains(response, user)
-    
-    def test_api_can_update_user(self):
-        user=User.objects.get()
-        change_user = {'name' : 'something new'}
-        res = self.client.put(reverse('details', kwargs={'User': user.id}), change_user, format= "json")
-        self.assertEqual(res.status_code,status.HTTP_200_OK)
 
-    def test_api_can_delete_user(self):
-        user=User.objects.get()
-        response = self.client.delete(reverse('details',kwargs={'pk': user.id}),format = "json", follow=True)
-        self.assertEqual(response.status_code,status.HTTP_204_NO_CONTENT)
+
+    def can_delete_user(self):
+        user = User.objects.get()
+        url = reverse('users-list',kwargs={'User':user.email})
+        response = self.client.delete(url, format='json',follow=True)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def can_update_user(self):
+        user = User.objects.get()
+        url = reverse('users-list',kwargs={'User':user.email})
+        new_data = {
+            'email': 'newTest@gmail.com',
+            'name': 'newTest',
+            'city': 'newTest',
+            'state': 'newTest',
+            'zipcode': 'newTest'
+        }
+        response = self.client.put(url,new_data,format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

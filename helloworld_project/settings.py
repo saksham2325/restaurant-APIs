@@ -43,11 +43,27 @@ INSTALLED_APPS = [
     'restaurant',
     'common',
     'rest_framework_swagger',
+    'rest_framework.authtoken',
 ]
 
+
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ],
+    
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated', 
+    # )
 }
+
+AUTHENTICATION_BACKENDS = (
+   "django.contrib.auth.backends.ModelBackend",
+)
+
 
 AUTH_USER_MODEL = 'accounts.User'
 

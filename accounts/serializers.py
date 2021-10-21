@@ -1,18 +1,19 @@
-from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-
 from accounts.models import User
-from restaurant.serializers import RestaurantSerializer
+
+from restaurant.serializers import RestaurantReadSerializer
+
 
 class UserSerializer(serializers.ModelSerializer):
-
-    # user_restaurant = serializers.SerializerMethodField('_get_restaurant_owner')
-    # def _get_restaurant_owner(self,user_object):
-    #   Restaurant.objects.filter(Restaurant.owner=request.user)
-    restaurant = RestaurantSerializer(many = True, read_only = True)
-    
+    restaurant = RestaurantReadSerializer(many = True, read_only = True)
     class Meta:
         model = User
-        fields = ['email','name','password','city','state','zipcode','balance','restaurant',]
-    
-    validate_password = make_password
+        fields = ['id','email','first_name','last_name','password','city','state','zipcode','restaurant','balance']
+        extra_kwargs = {'password': {'write_only': True}}
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
