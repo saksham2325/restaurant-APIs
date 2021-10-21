@@ -1,8 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from common.models import CreatedUpdatedAt
 from accounts.manager import UserManager
+from common.models import CreatedUpdatedAt
 
 
 class User(AbstractUser,CreatedUpdatedAt):

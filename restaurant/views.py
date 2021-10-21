@@ -1,24 +1,23 @@
+from restaurant import models
+from restaurant import serializers as srlzr
 from rest_framework import viewsets
 
 
-from restaurant.models import (Food, Order, OrderFood, Restaurant)
-from restaurant.serializers import (FoodSerializer, OrderFoodSerializer, OrderSerializer, RestaurantSerializer)
-
 class RestaurantViewset(viewsets.ModelViewSet):
-    queryset = Restaurant.objects.all()
-    serializer_class = RestaurantSerializer
+    queryset = models.Restaurant.objects.all()
+    serializer_class = srlzr.RestaurantSerializer
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    queryset = models.Order.objects.all()
+    serializer_class = srlzr.OrderSerializer
 
 
 class FoodViewSet(viewsets.ModelViewSet):
-    queryset = Food.objects.all()
-    serializer_class = FoodSerializer
+    queryset = models.Food.objects.all()
+    serializer_class = srlzr.FoodSerializer
 
 
 class OrderFoodViewSet(viewsets.ModelViewSet):
-    queryset = OrderFood.objects.all()
-    serializer_class = OrderFoodSerializer
+    queryset = models.OrderFood.objects.all()
+    serializer_class = srlzr.OrderFoodSerializer
