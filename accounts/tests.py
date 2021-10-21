@@ -7,7 +7,6 @@ from accounts.models import User
 
 class UserTest(APITestCase):
 
-
     def setUp(self):
         url = reverse('user-list')
         data = {
@@ -33,12 +32,10 @@ class UserTest(APITestCase):
             'phone': '1234',
             'password': '1234'
         }
-
         client = APIClient()
         response = client.post(url, data, format='json')
         print(response.status_code)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
 
     def test_can_get_user(self):
 
@@ -47,7 +44,6 @@ class UserTest(APITestCase):
         client = APIClient()
         response = client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
 
     def test_can_delete_user(self):
         user = User.objects.get()

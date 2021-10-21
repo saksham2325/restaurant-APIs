@@ -11,6 +11,6 @@ schema_view = get_swagger_view(title = 'Documentation')
 urlpatterns = [
     path('docs/',schema_view),
     path('',include(router.urls)),
-    path('api-token-auth/', views.CustomAuthToken.as_view()),
+    path('authtoken/', views.CustomAuthToken.as_view()),
     path('api-auth/',include('rest_framework.urls',namespace='rest_framework'))
 ]
