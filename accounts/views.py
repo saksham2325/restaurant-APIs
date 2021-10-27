@@ -1,13 +1,17 @@
+from rest_framework import authentication
+from rest_framework import permissions
 from rest_framework import viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from accounts import permissions as custompermission
+from accounts import serializers
 from accounts.models import User
-from accounts.serializers import UserSerializer
 
 
-class CustomAuthToken(ObtainAuthToken):
+class Login(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
@@ -22,6 +26,21 @@ class CustomAuthToken(ObtainAuthToken):
         })
 
 
+class Logout(APIView):
+    def get(self, request, format=None):
+        request.user.auth_token.delete()
+        return Response({'message': 'User is logout'})
+
+
 class UserViewSet(viewsets.ModelViewSet):
+    authentication_classes = [authentication.TokenAuthentication]
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = serializers.UserSerializer
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [custompermission.ListPermission]
+        else:
+            permission_classes = [permissions.IsAuthenticated, custompermission.IsOwner]
+        return [permission() for permission in permission_classes]
+

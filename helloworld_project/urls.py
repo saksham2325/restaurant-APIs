@@ -7,5 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('accounts.urls')),
     path('',include('restaurant.urls')),
-    path('api-token-auth/', views.obtain_auth_token),
+    # path('token/', views.obtain_auth_token),
 ]

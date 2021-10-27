@@ -3,6 +3,7 @@ charset-normalizer==2.0.7
 coreapi==2.3.3
 coreschema==0.0.4
 Django==2.2
+django-dynamic-fixture==3.1.2
 django-filter==21.1
 django-rest-swagger==2.2.0
 djangorestframework==3.12.4
@@ -17,6 +18,7 @@ Pygments==2.10.0
 pytz==2021.3
 requests==2.26.0
 simplejson==3.17.5
+six==1.16.0
 sqlparse==0.4.2
 uritemplate==4.1.1
 urllib3==1.26.7

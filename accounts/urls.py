@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.conf.urls import url
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 
@@ -11,6 +12,7 @@ schema_view = get_swagger_view(title = 'Documentation')
 urlpatterns = [
     path('docs/',schema_view),
     path('',include(router.urls)),
-    path('authtoken/', views.CustomAuthToken.as_view()),
-    path('api-auth/',include('rest_framework.urls',namespace='rest_framework'))
+    path('login/', views.Login.as_view()),
+    url(r'^logout/', views.Logout.as_view()),
+    # path('api-auth/',include('rest_framework.urls',namespace='rest_framework'))
 ]
