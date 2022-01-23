@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from verify_email.email_handler import send_verification_email
 
 from accounts import permissions as custompermission
 from accounts import serializers
@@ -12,12 +13,14 @@ from accounts.models import User
 
 
 class Login(ObtainAuthToken):
+    authentication_classes = []
+    permission_classes = []
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
+        serializer = serializers.LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
+        print('view',request.data)
+        user = User.objects.get(email=request.data['email'])
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
@@ -27,20 +30,21 @@ class Login(ObtainAuthToken):
 
 
 class Logout(APIView):
-    def get(self, request, format=None):
+
+    def post(self, request, format=None):
         request.user.auth_token.delete()
         return Response({'message': 'User is logout'})
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    authentication_classes = [authentication.TokenAuthentication]
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
     def get_permissions(self):
-        if self.action == 'list':
+        if self.action == 'create':
+            permission_classes = [permissions.AllowAny]
+        elif self.action == 'list':
             permission_classes = [custompermission.ListPermission]
         else:
             permission_classes = [permissions.IsAuthenticated, custompermission.IsOwner]
         return [permission() for permission in permission_classes]
-

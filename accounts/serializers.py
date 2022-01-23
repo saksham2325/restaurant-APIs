@@ -1,7 +1,24 @@
+from django.contrib.auth import authenticate
 from rest_framework import serializers
 from accounts.models import User
 
 from restaurant.serializers import RestaurantReadSerializer
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=128)
+
+    def validate(self, data):
+        data['email'] = data['email'].lower()
+        username = data.get('email')
+        password = data.get('password')
+        user = authenticate(username=username, password=password)
+        if not user:
+            raise serializers.ValidationError(
+                "Invalid Credentials", code='authorization')
+        else:
+            return data
 
 
 class UserSerializer(serializers.ModelSerializer):

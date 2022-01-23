@@ -1,5 +1,6 @@
 from django.db import models
 
+from django.contrib.postgres.fields import ArrayField
 from accounts import models as account_models
 from common import constants
 from common.models import CreateAndUpdateTime

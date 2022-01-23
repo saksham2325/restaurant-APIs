@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'common',
     'rest_framework_swagger',
     'rest_framework.authtoken',
+    'verify_email.apps.VerifyEmailConfig',
 ]
 
 
@@ -58,7 +59,7 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
@@ -152,3 +153,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'saksham.garg@joshtechnologygroup.com' 
+EMAIL_HOST_PASSWORD = 'Josh@2021'
